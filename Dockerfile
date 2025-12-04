@@ -48,40 +48,39 @@ ENV TZ="UTC" \
 
 COPY --link --from=dependencies / /
 
+# Copy build scripts
+COPY ./util/docker/common /bd_build/
+COPY ./util/docker/supervisor /bd_build/supervisor
+COPY ./util/docker/stations /bd_build/stations
+COPY ./util/docker/web /bd_build/web
+COPY ./util/docker/mariadb /bd_build/mariadb
+COPY ./util/docker/redis /bd_build/redis
+
 # Run base build process
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    bash /bd_build/prepare.sh && \
+RUN bash /bd_build/prepare.sh && \
     bash /bd_build/add_user.sh && \
     bash /bd_build/cleanup.sh
 
 # Build each set of dependencies in their own step for cacheability.
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    --mount=type=bind,source=./util/docker/supervisor,target=/bd_build/supervisor,rw \
-    bash /bd_build/supervisor/setup.sh && \
+RUN bash /bd_build/supervisor/setup.sh && \
     bash /bd_build/cleanup.sh
 
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    --mount=type=bind,source=./util/docker/stations,target=/bd_build/stations,rw \
-    bash /bd_build/stations/setup.sh && \
+RUN bash /bd_build/stations/setup.sh && \
     bash /bd_build/cleanup.sh
 
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    --mount=type=bind,source=./util/docker/web,target=/bd_build/web,rw \
-    bash /bd_build/web/setup.sh && \
+RUN bash /bd_build/web/setup.sh && \
     bash /bd_build/cleanup.sh
 
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    --mount=type=bind,source=./util/docker/mariadb,target=/bd_build/mariadb,rw \
-    bash /bd_build/mariadb/setup.sh && \
+RUN bash /bd_build/mariadb/setup.sh && \
     bash /bd_build/cleanup.sh
 
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    --mount=type=bind,source=./util/docker/redis,target=/bd_build/redis,rw \
-    bash /bd_build/redis/setup.sh && \
+RUN bash /bd_build/redis/setup.sh && \
     bash /bd_build/cleanup.sh
 
-RUN --mount=type=bind,source=./util/docker/common,target=/bd_build,rw \
-    bash /bd_build/chown_dirs.sh
+RUN bash /bd_build/chown_dirs.sh
+
+# Clean up build scripts
+RUN rm -rf /bd_build
 
 # Add built-in docs
 COPY --from=docs --chown=azuracast:azuracast /dist /var/azuracast/docs
@@ -92,16 +91,8 @@ RUN touch /var/azuracast/.docker
 
 USER root
 
-VOLUME "/var/azuracast/stations"
-VOLUME "/var/azuracast/backups"
-VOLUME "/var/lib/mysql"
-VOLUME "/var/azuracast/storage/acme"
-VOLUME "/var/azuracast/storage/geoip"
-VOLUME "/var/azuracast/storage/rsas"
-VOLUME "/var/azuracast/storage/sftpgo"
-VOLUME "/var/azuracast/storage/shoutcast2"
-VOLUME "/var/azuracast/storage/stereo_tool"
-VOLUME "/var/azuracast/storage/uploads"
+# Note: VOLUME directives removed for Railway compatibility
+# Configure volumes through Railway's volume management instead
 
 EXPOSE 80 443 2022
 EXPOSE 8000-8999
