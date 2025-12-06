@@ -61,10 +61,18 @@ echo ""
 echo -e "${BLUE}ℹ Fetching usage data...${NC}"
 echo ""
 
-# Run railway usage and capture output
+# Run railway usage and capture output with error handling
 # Note: The actual output format depends on Railway CLI version
 # This is a template - adjust based on actual CLI output
-railway usage
+if railway usage 2>/dev/null; then
+    echo ""
+else
+    echo -e "${YELLOW}⚠️  'railway usage' command not available in this CLI version${NC}"
+    echo ""
+    echo "Please check usage manually in Railway Dashboard:"
+    echo "  https://railway.app/dashboard → Your Project → Settings → Usage"
+    echo ""
+fi
 
 echo ""
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"

@@ -2,11 +2,21 @@
 # This file configures AzuraCast for Railway deployment with cost-protection guardrails
 
 [build]
-builder = "NIXPACKS"
-buildCommand = "npm run build"
+# AzuraCast is a Docker-based application
+# Railway will use the Dockerfile in the repository
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+# Note: The Dockerfile handles all build steps including:
+# - PHP dependencies (composer)
+# - Frontend assets (npm run build)
+# - Service configuration
+# For Railway deployment, consider creating a simplified Dockerfile if needed
 
 [deploy]
-startCommand = "php-fpm -F"
+# The Dockerfile's CMD/ENTRYPOINT will be used
+# AzuraCast typically runs multiple services (web server, PHP-FPM, etc.)
+# This may require adaptation for Railway's single-process model
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"

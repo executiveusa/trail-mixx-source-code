@@ -63,7 +63,10 @@ echo ""
 
 read -p "Have you resolved the cost issues? (yes/no): " resolved
 
-if [ "$resolved" != "yes" ]; then
+# Convert to lowercase for case-insensitive comparison
+resolved=$(echo "$resolved" | tr '[:upper:]' '[:lower:]')
+
+if [[ ! "$resolved" =~ ^(yes|y)$ ]]; then
     echo ""
     echo -e "${YELLOW}⚠️  Please address cost issues before resuming${NC}"
     echo ""
@@ -100,7 +103,10 @@ echo ""
 
 read -p "Confirm all items above are addressed (yes/no): " confirm
 
-if [ "$confirm" != "yes" ]; then
+# Convert to lowercase for case-insensitive comparison
+confirm=$(echo "$confirm" | tr '[:upper:]' '[:lower:]')
+
+if [[ ! "$confirm" =~ ^(yes|y)$ ]]; then
     echo ""
     echo -e "${BLUE}ℹ Resume cancelled${NC}"
     echo "Please address the checklist items first."
@@ -234,7 +240,10 @@ echo ""
 
 read -p "Confirm all verifications pass (yes/no): " verified
 
-if [ "$verified" != "yes" ]; then
+# Convert to lowercase for case-insensitive comparison
+verified=$(echo "$verified" | tr '[:upper:]' '[:lower:]')
+
+if [[ ! "$verified" =~ ^(yes|y)$ ]]; then
     echo ""
     echo -e "${RED}⚠️  Verification failed${NC}"
     echo ""

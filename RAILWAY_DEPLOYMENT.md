@@ -59,6 +59,15 @@ Railway will provide:
 - **Storage**: 1GB (included with database plugins)
 - **Bandwidth**: 100GB/month (free tier)
 
+### Important Note: Docker-Based Application
+
+AzuraCast is designed to run via Docker with multiple services (web server, PHP-FPM, workers, etc.). Railway's single-process model may require adaptation:
+
+1. **For Production**: Consider using Railway's Docker support with the existing Dockerfile
+2. **For Testing**: The `railway.toml` provides a simplified configuration
+3. **Alternative**: Deploy individual services separately on Railway
+4. **Recommended**: For full functionality, use Coolify (see `COOLIFY_MIGRATION.md`) which has better Docker Compose support
+
 ---
 
 ## Understanding the Zero-Secrets Architecture

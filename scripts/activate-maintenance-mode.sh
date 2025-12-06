@@ -15,6 +15,16 @@
 
 set -e
 
+# Cleanup function for temporary files
+cleanup() {
+    if [ -f "Dockerfile.maintenance" ]; then
+        rm -f Dockerfile.maintenance
+    fi
+}
+
+# Register cleanup function to run on exit
+trap cleanup EXIT
+
 # Color codes for output
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
@@ -256,14 +266,6 @@ echo ""
 echo "Your Railway costs should now be minimal (maintenance page only)."
 echo "Plan your next steps and resume when ready."
 echo ""
-
-# Cleanup
-if [ -f "Dockerfile.maintenance" ]; then
-    echo "Cleaning up temporary files..."
-    rm Dockerfile.maintenance
-    echo -e "${GREEN}✓ Cleanup complete${NC}"
-fi
-
-echo ""
 echo -e "${GREEN}✓ Maintenance mode activation process complete${NC}"
+echo -e "${CYAN}Note: Temporary files will be cleaned up automatically${NC}"
 echo ""
