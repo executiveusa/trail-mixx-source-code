@@ -1,0 +1,110 @@
+// Prisma schema for Trail Mixx Radio
+// Postgres database on Railway
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  displayName  String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Relations
+  uploadedTracks Track[]       @relation("UserUploads")
+  playlists      Playlist[]
+  playHistory    PlayHistory[]
+
+  @@map("users")
+}
+
+enum TrackStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Track {
+  id           String      @id @default(cuid())
+  title        String
+  artistName   String
+  uploaderId   String?
+  uploader     User?       @relation("UserUploads", fields: [uploaderId], references: [id], onDelete: SetNull)
+  audioUrl     String?
+  coverArtUrl  String?
+  status       TrackStatus @default(PENDING)
+  tags         String[]    @default([])
+  duration     Int?        // in seconds
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  // Relations
+  playHistory    PlayHistory[]
+  playlistTracks PlaylistTrack[]
+
+  @@index([status])
+  @@index([uploaderId])
+  @@map("tracks")
+}
+
+enum PlaySource {
+  RADIO
+  WEB
+  MOBILE
+}
+
+model PlayHistory {
+  id         String     @id @default(cuid())
+  trackId    String
+  track      Track      @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  playedAt   DateTime   @default(now())
+  source     PlaySource @default(RADIO)
+  listenerId String?
+  listener   User?      @relation(fields: [listenerId], references: [id], onDelete: SetNull)
+
+  @@index([trackId])
+  @@index([playedAt])
+  @@index([listenerId])
+  @@map("play_history")
+}
+
+model Playlist {
+  id          String          @id @default(cuid())
+  name        String
+  description String?
+  coverArtUrl String?
+  isPublic    Boolean         @default(true)
+  createdById String
+  createdBy   User            @relation(fields: [createdById], references: [id], onDelete: Cascade)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  // Relations
+  tracks PlaylistTrack[]
+
+  @@index([createdById])
+  @@map("playlists")
+}
+
+model PlaylistTrack {
+  id         String   @id @default(cuid())
+  playlistId String
+  playlist   Playlist @relation(fields: [playlistId], references: [id], onDelete: Cascade)
+  trackId    String
+  track      Track    @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  position   Int
+  addedAt    DateTime @default(now())
+
+  @@unique([playlistId, trackId])
+  @@index([playlistId])
+  @@index([trackId])
+  @@map("playlist_tracks")
+}

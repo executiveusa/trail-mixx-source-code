@@ -1,0 +1,67 @@
+<icecast>
+    <location>Seattle, WA</location>
+    <admin>admin@trailmixx.radio</admin>
+    <hostname>localhost</hostname>
+
+    <limits>
+        <clients>100</clients>
+        <sources>2</sources>
+        <queue-size>524288</queue-size>
+        <client-timeout>30</client-timeout>
+        <header-timeout>15</header-timeout>
+        <source-timeout>10</source-timeout>
+        <burst-on-connect>1</burst-on-connect>
+        <burst-size>65535</burst-size>
+    </limits>
+
+    <authentication>
+        <source-password>CHANGE_ME_SOURCE_PASSWORD</source-password>
+        <relay-password>CHANGE_ME_RELAY_PASSWORD</relay-password>
+        <admin-user>admin</admin-user>
+        <admin-password>CHANGE_ME_ADMIN_PASSWORD</admin-password>
+    </authentication>
+
+    <listen-socket>
+        <port>8000</port>
+    </listen-socket>
+
+    <mount type="normal">
+        <mount-name>/stream</mount-name>
+        <username>source</username>
+        <password>CHANGE_ME_SOURCE_PASSWORD</password>
+        <max-listeners>100</max-listeners>
+        <dump-file>/var/log/icecast/stream.dump</dump-file>
+        <burst-size>65536</burst-size>
+        <fallback-mount>/fallback</fallback-mount>
+        <fallback-override>1</fallback-override>
+        <fallback-when-full>1</fallback-when-full>
+        <public>0</public>
+        <stream-name>Trail Mixx Radio</stream-name>
+        <stream-description>Seattle's decentralized cover-song community radio</stream-description>
+        <stream-url>https://trailmixx.radio</stream-url>
+        <genre>R&amp;B, Hip-Hop, Urban, Community</genre>
+        <bitrate>128</bitrate>
+        <type>audio/mpeg</type>
+    </mount>
+
+    <fileserve>1</fileserve>
+
+    <paths>
+        <basedir>/usr/share/icecast</basedir>
+        <logdir>/var/log/icecast</logdir>
+        <webroot>/usr/share/icecast/web</webroot>
+        <adminroot>/usr/share/icecast/admin</adminroot>
+        <alias source="/" destination="/status.xsl"/>
+    </paths>
+
+    <logging>
+        <accesslog>access.log</accesslog>
+        <errorlog>error.log</errorlog>
+        <loglevel>3</loglevel>
+        <logsize>10000</logsize>
+    </logging>
+
+    <security>
+        <chroot>0</chroot>
+    </security>
+</icecast>

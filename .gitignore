@@ -1,5 +1,7 @@
-# Frontend
+# Dependencies
 node_modules
+.pnp
+.pnp.js
 
 # Junk/cache files.
 *Thumbs.db
@@ -58,3 +60,30 @@ tmp/cache/*---*
 /plugins/*
 /plugins/**/*
 !/plugins/.gitkeep
+
+# New monorepo structure
+/apps/*/node_modules
+/apps/*/.next
+/apps/*/dist
+/apps/mobile/.expo
+/apps/mobile/.expo-shared
+/packages/*/node_modules
+/packages/*/dist
+/server/node_modules
+/server/dist
+/server/prisma/migrations
+*.db
+*.db-journal
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Misc
+.turbo/
+.cache/
+temp/
+tmp/

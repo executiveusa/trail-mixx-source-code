@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Trail Mixx Radio",
+    "slug": "trail-mixx-radio",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0a0b"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "radio.trailmixx.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0a0a0b"
+      },
+      "package": "radio.trailmixx.mobile",
+      "permissions": ["android.permission.INTERNET", "android.permission.RECORD_AUDIO"]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "apiUrl": process.env.API_URL || "http://localhost:3001",
+      "streamUrl": process.env.STREAM_URL || "http://localhost:8000/stream"
+    }
+  }
+}
