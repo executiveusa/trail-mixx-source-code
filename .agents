@@ -1,0 +1,379 @@
+{
+  "project": "AzuraCast",
+  "description": "Self-hosted web radio management suite requiring database, cache, and optional external integrations",
+  "version": "1.0.0",
+  "generated_at": "2025-12-06T09:57:23.263Z",
+  
+  "core_secrets": [
+    {
+      "name": "MYSQL_PASSWORD",
+      "description": "Password for MySQL/MariaDB database connection",
+      "required": true,
+      "default": "azur4c457",
+      "format": "string",
+      "category": "database",
+      "security_level": "high",
+      "notes": "Internal password for database service. Change for production deployments."
+    },
+    {
+      "name": "MYSQL_USER",
+      "description": "Username for MySQL/MariaDB database connection",
+      "required": true,
+      "default": "azuracast",
+      "format": "string",
+      "category": "database",
+      "security_level": "medium"
+    },
+    {
+      "name": "MYSQL_DATABASE",
+      "description": "Database name for AzuraCast",
+      "required": true,
+      "default": "azuracast",
+      "format": "string",
+      "category": "database",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_HOST",
+      "description": "Database host address",
+      "required": true,
+      "default": "localhost",
+      "format": "hostname",
+      "category": "database",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_PORT",
+      "description": "Database port number",
+      "required": true,
+      "default": "3306",
+      "format": "integer",
+      "category": "database",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_RANDOM_ROOT_PASSWORD",
+      "description": "Automatically generate random root password",
+      "required": false,
+      "default": "yes",
+      "format": "boolean",
+      "category": "database",
+      "security_level": "high"
+    }
+  ],
+  
+  "infrastructure_config": [
+    {
+      "name": "APPLICATION_ENV",
+      "description": "Application environment setting",
+      "required": true,
+      "default": "production",
+      "format": "enum",
+      "allowed_values": ["production", "development", "testing"],
+      "category": "application",
+      "security_level": "low"
+    },
+    {
+      "name": "ENABLE_REDIS",
+      "description": "Enable Redis caching",
+      "required": false,
+      "default": "true",
+      "format": "boolean",
+      "category": "cache",
+      "security_level": "low"
+    },
+    {
+      "name": "REDIS_HOST",
+      "description": "Redis server hostname",
+      "required": false,
+      "default": "localhost",
+      "format": "hostname",
+      "category": "cache",
+      "security_level": "low"
+    },
+    {
+      "name": "REDIS_PORT",
+      "description": "Redis server port",
+      "required": false,
+      "default": "6379",
+      "format": "integer",
+      "category": "cache",
+      "security_level": "low"
+    },
+    {
+      "name": "REDIS_DB",
+      "description": "Redis database index",
+      "required": false,
+      "default": "1",
+      "format": "integer",
+      "category": "cache",
+      "security_level": "low"
+    }
+  ],
+  
+  "optional_integrations": [
+    {
+      "name": "LOG_LEVEL",
+      "description": "Application logging level",
+      "required": false,
+      "default": "notice",
+      "format": "enum",
+      "allowed_values": ["debug", "info", "notice", "warning", "error", "critical", "alert", "emergency"],
+      "category": "logging",
+      "security_level": "low",
+      "disabled_by_default": false
+    },
+    {
+      "name": "PROFILING_EXTENSION_ENABLED",
+      "description": "Enable PHP-SPX profiling extension",
+      "required": false,
+      "default": "0",
+      "format": "boolean",
+      "category": "debugging",
+      "security_level": "medium",
+      "disabled_by_default": true,
+      "notes": "Only enable in development/testing environments"
+    },
+    {
+      "name": "PROFILING_EXTENSION_HTTP_KEY",
+      "description": "Key to access profiling dashboard",
+      "required": false,
+      "default": "dev",
+      "format": "string",
+      "category": "debugging",
+      "security_level": "high",
+      "disabled_by_default": true
+    },
+    {
+      "name": "PROFILING_EXTENSION_ALWAYS_ON",
+      "description": "Profile all requests",
+      "required": false,
+      "default": "0",
+      "format": "boolean",
+      "category": "debugging",
+      "security_level": "low",
+      "disabled_by_default": true,
+      "notes": "Has significant performance impact"
+    },
+    {
+      "name": "PROFILING_EXTENSION_HTTP_IP_WHITELIST",
+      "description": "IP whitelist for profiling dashboard",
+      "required": false,
+      "default": "127.0.0.1",
+      "format": "ip_list",
+      "category": "debugging",
+      "security_level": "medium",
+      "disabled_by_default": true
+    }
+  ],
+  
+  "performance_tuning": [
+    {
+      "name": "PHP_MEMORY_LIMIT",
+      "description": "PHP maximum memory limit",
+      "required": false,
+      "default": "128M",
+      "format": "size",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "PHP_MAX_EXECUTION_TIME",
+      "description": "PHP maximum script execution time in seconds",
+      "required": false,
+      "default": "30",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "PHP_MAX_FILE_SIZE",
+      "description": "PHP maximum POST body size and upload filesize",
+      "required": false,
+      "default": "25M",
+      "format": "size",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "PHP_FPM_MAX_CHILDREN",
+      "description": "Maximum PHP-FPM worker processes",
+      "required": false,
+      "default": "5",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_MAX_CONNECTIONS",
+      "description": "Maximum database connections allowed",
+      "required": false,
+      "default": "100",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_INNODB_BUFFER_POOL_SIZE",
+      "description": "InnoDB buffer pool size",
+      "required": false,
+      "default": "128M",
+      "format": "size",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "MYSQL_INNODB_LOG_FILE_SIZE",
+      "description": "InnoDB log file size",
+      "required": false,
+      "default": "16M",
+      "format": "size",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "SYNC_SHORT_EXECUTION_TIME",
+      "description": "Maximum execution time for short sync tasks",
+      "required": false,
+      "default": "600",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "SYNC_LONG_EXECUTION_TIME",
+      "description": "Maximum execution time for long sync tasks",
+      "required": false,
+      "default": "1800",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "NOW_PLAYING_DELAY_TIME",
+      "description": "Delay between Now Playing checks",
+      "required": false,
+      "default": "0",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    },
+    {
+      "name": "NOW_PLAYING_MAX_CONCURRENT_PROCESSES",
+      "description": "Maximum concurrent processes for now playing updates",
+      "required": false,
+      "default": "5",
+      "format": "integer",
+      "category": "performance",
+      "security_level": "low"
+    }
+  ],
+  
+  "station_config": [
+    {
+      "name": "AUTO_ASSIGN_PORT_MIN",
+      "description": "Minimum port for automatic station port assignment",
+      "required": false,
+      "default": "8000",
+      "format": "integer",
+      "category": "stations",
+      "security_level": "low"
+    },
+    {
+      "name": "AUTO_ASSIGN_PORT_MAX",
+      "description": "Maximum port for automatic station port assignment",
+      "required": false,
+      "default": "8499",
+      "format": "integer",
+      "category": "stations",
+      "security_level": "low"
+    }
+  ],
+  
+  "debugging": [
+    {
+      "name": "SHOW_DETAILED_ERRORS",
+      "description": "Display detailed error messages",
+      "required": false,
+      "default": "false",
+      "format": "boolean",
+      "category": "debugging",
+      "security_level": "high",
+      "disabled_by_default": true,
+      "notes": "Only enable in development. Prevents leaking privileged information."
+    },
+    {
+      "name": "MYSQL_SLOW_QUERY_LOG",
+      "description": "Enable slow query logging",
+      "required": false,
+      "default": "0",
+      "format": "boolean",
+      "category": "debugging",
+      "security_level": "low",
+      "disabled_by_default": true
+    }
+  ],
+  
+  "advanced": [
+    {
+      "name": "COMPOSER_PLUGIN_MODE",
+      "description": "Enable composer merge functionality for plugins",
+      "required": false,
+      "default": "false",
+      "format": "boolean",
+      "category": "advanced",
+      "security_level": "low",
+      "notes": "Has performance implications, only enable if using plugins with dependencies"
+    }
+  ],
+  
+  "schema_version": "1.0",
+  "agent_instructions": {
+    "purpose": "This file provides a machine-readable specification of all secrets and configuration variables required by AzuraCast",
+    "usage": "A separate secrets-provisioning agent should read this file to understand what secrets need to be injected",
+    "security_notes": [
+      "Never commit actual secret values to version control",
+      "Store real secrets in master.secrets.json locally",
+      "Use Railway's secret management for production deployments",
+      "Rotate passwords regularly, especially for production"
+    ],
+    "deployment_notes": [
+      "Core secrets (database credentials) are REQUIRED for basic operation",
+      "Redis can be disabled for minimal deployments by setting ENABLE_REDIS=false",
+      "Performance tuning variables should be adjusted based on available resources",
+      "Profiling and debugging features should remain disabled in production"
+    ]
+  },
+  
+  "railway_specific": {
+    "required_services": [
+      {
+        "name": "web",
+        "type": "application",
+        "build_command": "npm run build",
+        "start_command": "php-fpm",
+        "health_check": "/",
+        "port": 8080
+      },
+      {
+        "name": "database",
+        "type": "mysql",
+        "version": "8.0",
+        "plugin": "mysql"
+      },
+      {
+        "name": "cache",
+        "type": "redis",
+        "version": "7",
+        "plugin": "redis",
+        "optional": true
+      }
+    ],
+    "cost_guardrails": {
+      "max_memory_mb": 512,
+      "max_cpu_cores": 1,
+      "autoscaling": false,
+      "free_tier_compatible": true
+    }
+  }
+}
