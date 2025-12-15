@@ -58,3 +58,15 @@ tmp/cache/*---*
 /plugins/*
 /plugins/**/*
 !/plugins/.gitkeep
+
+# Railway Zero-Secrets Bootstrapper - Secret Management
+# NEVER commit these files - they contain sensitive credentials
+master.secrets.json
+*.secrets.json
+secrets.local.json
+.railway
+railway.json
+
+# Local environment overrides
+.env.local
+.env.*.local

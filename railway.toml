@@ -1,0 +1,126 @@
+# Railway Zero-Secrets Bootstrapper Configuration
+# This file configures AzuraCast for Railway deployment with cost-protection guardrails
+
+[build]
+# AzuraCast is a Docker-based application
+# Railway will use the Dockerfile in the repository
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+# Note: The Dockerfile handles all build steps including:
+# - PHP dependencies (composer)
+# - Frontend assets (npm run build)
+# - Service configuration
+# For Railway deployment, consider creating a simplified Dockerfile if needed
+
+[deploy]
+# The Dockerfile's CMD/ENTRYPOINT will be used
+# AzuraCast typically runs multiple services (web server, PHP-FPM, etc.)
+# This may require adaptation for Railway's single-process model
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Cost Protection Guardrails - FREE TIER COMPATIBLE
+[deploy.resources]
+# Enforce minimal resource usage to stay within free tier
+# Railway free tier: $5/month credit (~500 GB-hours)
+# These settings aim to keep monthly cost under free tier limit
+
+# Memory limit: 512MB (adjust based on actual needs, minimum for PHP-FPM)
+# This is intentionally conservative to avoid runaway costs
+memoryLimitMB = 512
+
+# CPU limit: Shared CPU (fractional)
+# Railway measures in millicores (1000 = 1 core)
+# Setting to 500m = 0.5 cores to stay in free tier
+cpuLimitMillicores = 500
+
+# Disable autoscaling to prevent unexpected cost spikes
+[deploy.autoscaling]
+enabled = false
+
+# Environment variables configuration
+# Note: Secrets should be set via Railway UI or CLI, not in this file
+[deploy.env]
+APPLICATION_ENV = "production"
+SHOW_DETAILED_ERRORS = "false"
+COMPOSER_PLUGIN_MODE = "false"
+
+# Database configuration (use Railway MySQL plugin)
+# MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE
+# will be automatically provided by Railway's MySQL plugin
+
+# Redis configuration (use Railway Redis plugin, or disable)
+ENABLE_REDIS = "true"
+# REDIS_HOST, REDIS_PORT, REDIS_DB
+# will be automatically provided by Railway's Redis plugin if added
+
+# Performance tuning for minimal resource environment
+PHP_MEMORY_LIMIT = "128M"
+PHP_MAX_EXECUTION_TIME = "30"
+PHP_MAX_FILE_SIZE = "25M"
+PHP_FPM_MAX_CHILDREN = "3"
+
+# Station port configuration
+AUTO_ASSIGN_PORT_MIN = "8000"
+AUTO_ASSIGN_PORT_MAX = "8099"
+
+# Logging
+LOG_LEVEL = "notice"
+
+# Database optimization for low-resource environment
+MYSQL_MAX_CONNECTIONS = "50"
+MYSQL_INNODB_BUFFER_POOL_SIZE = "64M"
+MYSQL_INNODB_LOG_FILE_SIZE = "8M"
+
+# Sync optimization to reduce CPU usage
+NOW_PLAYING_DELAY_TIME = "5"
+NOW_PLAYING_MAX_CONCURRENT_PROCESSES = "2"
+SYNC_SHORT_EXECUTION_TIME = "300"
+SYNC_LONG_EXECUTION_TIME = "900"
+
+# Disable resource-intensive features
+PROFILING_EXTENSION_ENABLED = "0"
+PROFILING_EXTENSION_ALWAYS_ON = "0"
+MYSQL_SLOW_QUERY_LOG = "0"
+
+# Cost monitoring markers for automated checks
+[deploy.monitoring]
+# These are custom markers for monitoring scripts
+# Railway doesn't natively support these, but they document our cost protection strategy
+max_monthly_cost_usd = 5.0
+alert_threshold_percent = 80
+auto_shutdown_on_exceed = true
+maintenance_mode_enabled = true
+
+# Annotations for the Zero-Secrets Bootstrapper agent
+[metadata]
+bootstrapper_version = "1.0.0"
+project_type = "php-radio-management"
+secrets_managed = "railway-native"
+cost_protection = "enabled"
+free_tier_compatible = true
+last_modified = "2025-12-06T09:57:23.263Z"
+
+# Integration markers (not actively used, but present for future migration)
+[integrations]
+coolify_compatible = true
+hostinger_vpn_compatible = true
+multi_host_failover_ready = false
+
+# Cost protection notes
+# ====================
+# 1. Monitor usage via Railway dashboard regularly
+# 2. If usage approaches $5/month, trigger maintenance mode
+# 3. Maintenance mode deploys static HTML page (see maintenance.html)
+# 4. Main service is suspended until cost review
+# 5. Consider migrating to Coolify if sustained usage exceeds free tier
+# 6. Use railway CLI to check usage: railway usage
+#
+# Manual shutdown command if needed:
+# railway down --service <service-name>
+#
+# Deploy maintenance page:
+# railway up --service maintenance-page

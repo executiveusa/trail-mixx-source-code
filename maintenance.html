@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="300">
+    <title>AzuraCast - Maintenance Mode</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .maintenance-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        h1 {
+            font-size: 32px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .message {
+            font-size: 18px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .info-box {
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            text-align: left;
+            border-radius: 4px;
+            margin-bottom: 25px;
+        }
+        
+        .info-box h2 {
+            font-size: 16px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .info-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .info-box li {
+            padding: 6px 0;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        
+        .info-box li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .footer {
+            font-size: 14px;
+            color: #718096;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .contact-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .contact-link:hover {
+            text-decoration: underline;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #e2e8f0;
+            border-radius: 2px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            animation: progress 3s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% {
+                width: 0%;
+            }
+            50% {
+                width: 100%;
+            }
+            100% {
+                width: 0%;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .maintenance-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="logo">🎵</div>
+        
+        <h1>Maintenance Mode</h1>
+        
+        <div class="status-badge">
+            🔧 Service Temporarily Unavailable
+        </div>
+        
+        <p class="message">
+            We're currently performing maintenance on your AzuraCast installation. 
+            This page has been activated to protect against unexpected resource usage costs.
+        </p>
+        
+        <div class="info-box">
+            <h2>What's happening?</h2>
+            <ul>
+                <li>Cost protection guardrails have been triggered</li>
+                <li>The main service has been suspended to prevent overage charges</li>
+                <li>Your data and configuration remain safe</li>
+                <li>This is an automated protective measure</li>
+            </ul>
+        </div>
+        
+        <div class="info-box">
+            <h2>Next steps:</h2>
+            <ul>
+                <li>Review your Railway usage dashboard</li>
+                <li>Consider upgrading to a paid tier for continued service</li>
+                <li>Migrate to Coolify for self-hosted deployment (see COOLIFY_MIGRATION.md)</li>
+                <li>Contact support if you need assistance</li>
+            </ul>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill"></div>
+        </div>
+        
+        <div class="footer">
+            <p>This page will automatically refresh every 5 minutes.</p>
+            <p style="margin-top: 10px;">
+                Questions? Check the 
+                <a href="https://github.com/AzuraCast/AzuraCast" class="contact-link" target="_blank">
+                    AzuraCast Documentation
+                </a>
+            </p>
+            <p style="margin-top: 15px; font-size: 12px; color: #a0aec0;">
+                Railway Zero-Secrets Bootstrapper v1.0.0 | Free Tier Protection Active
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Log maintenance mode activation
+        console.log('AzuraCast Maintenance Mode Active');
+        console.log('Timestamp:', new Date().toISOString());
+        console.log('Reason: Cost protection guardrails triggered');
+        console.log('Auto-refresh enabled: 5 minutes');
+        
+        // Display countdown timer
+        let countdown = 300; // 5 minutes in seconds
+        const updateCountdown = () => {
+            const minutes = Math.floor(countdown / 60);
+            const seconds = countdown % 60;
+            document.title = `AzuraCast - Maintenance (${minutes}:${seconds.toString().padStart(2, '0')})`;
+            
+            if (countdown > 0) {
+                countdown--;
+                setTimeout(updateCountdown, 1000);
+            }
+        };
+        updateCountdown();
+    </script>
+</body>
+</html>
