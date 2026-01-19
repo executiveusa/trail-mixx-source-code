@@ -44,7 +44,7 @@ router.get('/now-playing', async (req, res, next) => {
         track: currentPlay?.track || null,
         startedAt: currentPlay?.playedAt || null,
         nextTrack: nextTrack || null,
-        recentlyPlayed: recentPlays.map((p) => p.track),
+        recentlyPlayed: recentPlays.map((p: any) => p.track),
       },
     });
   } catch (error) {
@@ -68,7 +68,7 @@ router.get('/recent', async (req, res, next) => {
 
     res.json({
       success: true,
-      data: plays.map((p) => ({
+      data: plays.map((p: any) => ({
         ...p.track,
         playedAt: p.playedAt,
       })),

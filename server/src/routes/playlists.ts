@@ -135,7 +135,7 @@ router.post('/:id/tracks', authenticate, async (req: AuthRequest, res, next) => 
 
     // Get next position
     const maxPosition = playlist.tracks.length > 0
-      ? Math.max(...playlist.tracks.map((t) => t.position))
+      ? Math.max(...playlist.tracks.map((t: any) => t.position))
       : 0;
 
     const playlistTrack = await prisma.playlistTrack.create({
